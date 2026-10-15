@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>หลังบ้าน บัญชีโรงงาน</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div id="login" class="login" hidden>
+  <form id="login-form" class="login-card">
+    <h1>หลังบ้าน</h1><p class="muted">ระบบบัญชีโรงงาน · สำหรับผู้ดูแล</p>
+    <label>ชื่อผู้ใช้<input name="username" autocomplete="username" required></label>
+    <label>รหัสผ่าน<input name="password" type="password" autocomplete="current-password" required></label>
+    <div id="login-err" class="err" hidden></div>
+    <button class="btn" type="submit">เข้าสู่ระบบ</button>
+  </form>
+</div>
+<div id="shell" hidden>
+  <header class="top">
+    <b id="brand">หลังบ้าน</b>
+    <nav id="tabs"></nav>
+    <button class="btn sm ghost" id="logout">ออกจากระบบ</button>
+  </header>
+  <main id="main"></main>
+</div>
+<div id="modal" class="modal" hidden></div>
+<div id="toast" class="toast" hidden></div>
+<script src="admin.js"></script>
+</body>
+</html>
