@@ -2,6 +2,10 @@
 
 Express.js + Firestore + LINE LIFF (มีหลังบ้านสำหรับตั้งค่า)
 
+![ภาพรวมระบบ](docs/system-overview.png)
+
+เอกสาร: [ER Diagram](docs/ER.md) · [ภาพ ER](docs/er-diagram.png) · ภาพหน้าจอทั้งหมดใน `docs/screenshots/`
+
 ## ฟังก์ชันทั้ง 7 ข้อ
 | # | ฟังก์ชัน | LIFF | LINE แชท |
 |---|---|---|---|
