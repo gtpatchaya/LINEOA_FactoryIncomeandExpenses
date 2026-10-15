@@ -148,7 +148,7 @@ function pageAdd() {
     <input class="inp" id="date" type="date" max="${todayStr()}" value="${esc(f.date)}">
     <p class="sub" id="date-th" style="margin:6px 4px 0">${esc(dayLabel(f.date))} · ${esc(fullDate(f.date))}</p>
     <label class="f" for="note">หมายเหตุ (ไม่ใส่ก็ได้)</label>
-    <input class="inp" id="note" maxlength="200" placeholder="${f.type === 'income' ? 'เช่น ขายหมูขุน 20 ตัว เขียงหมูสยาม' : 'เช่น รำละเอียด 10 กระสอบ'}" value="${esc(f.note)}">
+    <input class="inp" id="note" maxlength="200" placeholder="${f.type === 'income' ? 'เช่น เงินเดือนเดือนนี้' : 'เช่น ข้าวมันไก่ + น้ำเปล่า'}" value="${esc(f.note)}">
     <div id="form-err"></div>
     <button class="btn" id="save">${I.check}บันทึกรายการ</button></div>`;
   const amt = $('#amt');

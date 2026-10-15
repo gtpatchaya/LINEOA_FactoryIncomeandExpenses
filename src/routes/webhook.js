@@ -15,9 +15,9 @@ const code = (t) => t.id.slice(-4).toUpperCase();
 const sign = (t) => (t.type === 'income' ? '+' : '−') + baht(t.amount);
 
 const HELP = `📒 วิธีใช้งาน
-• รับ 50000 ขายหมูขุน เขียงหมูสยาม  → บันทึกรายรับ
-• จ่าย 3000 อาหารหมู รำละเอียด 10 กระสอบ  → บันทึกรายจ่าย
-  (ใช้ + หรือ - แทน รับ/จ่าย ได้ เช่น -500 ค่าไฟ-น้ำ)
+• รับ 25000 เงินเดือน เดือนตุลาคม  → บันทึกรายรับ
+• จ่าย 120 อาหาร ข้าวมันไก่  → บันทึกรายจ่าย
+  (ใช้ + หรือ - แทน รับ/จ่าย ได้ เช่น -45 เดินทาง รถไฟฟ้า)
 • ยอด  → ดูเงินคงเหลือ
 • สรุป  → สรุปรายรับ-รายจ่ายเดือนนี้
 • ประวัติ  → ดู 5 รายการล่าสุด
@@ -67,7 +67,7 @@ async function handleText(userId, raw) {
   // ประวัติ
   if (/^(ประวัติ|รายการ|รายการล่าสุด)$/.test(msg)) {
     const list = await tx.recent(userId, 5);
-    if (!list.length) return [text('ยังไม่มีรายการ ลองพิมพ์ เช่น "จ่าย 3000 อาหารหมู"', QUICK)];
+    if (!list.length) return [text('ยังไม่มีรายการ ลองพิมพ์ เช่น "จ่าย 120 อาหาร"', QUICK)];
     return [text('🕘 รายการล่าสุด\n' + list.map((t) => `${code(t)} · ${thDateShort(t.date)} · ${t.category}\n   ${sign(t)}${t.note ? ' · ' + t.note : ''}`).join('\n'), QUICK)];
   }
 
@@ -107,7 +107,7 @@ router.post('/', async (req, res) => {
         });
       }
       if (ev.type === 'follow') {
-        await line.reply(ev.replyToken, [text(`สวัสดี${user.displayName ? ' คุณ' + user.displayName : ''} 👋\nยินดีต้อนรับสู่ระบบบัญชีพิกกี้เลี้ยงหมู\n\n${HELP}${liffUrl() ? `\n\n📱 เปิดแอป: ${liffUrl()}` : ''}`, QUICK)]);
+        await line.reply(ev.replyToken, [text(`สวัสดี${user.displayName ? ' คุณ' + user.displayName : ''} 👋\nยินดีต้อนรับสู่พิกกี้เลี้ยงหมู ตัวช่วยจดรายรับ-รายจ่าย\n\n${HELP}${liffUrl() ? `\n\n📱 เปิดแอป: ${liffUrl()}` : ''}`, QUICK)]);
       } else if (ev.type === 'message' && ev.message.type === 'text') {
         if (user.active === false) { await line.reply(ev.replyToken, [text('บัญชีนี้ถูกระงับการใช้งาน')]); continue; }
         let msgs;

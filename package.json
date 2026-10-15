@@ -1,7 +1,7 @@
 {
   "name": "piggy-income-expenses",
   "version": "1.0.0",
-  "description": "ระบบบันทึกรายรับรายจ่ายพิกกี้เลี้ยงหมูผ่าน LINE OA (Express + Firestore + LIFF)",
+  "description": "สมุดบันทึกรายรับ-รายจ่ายผ่าน LINE OA (Express + Firestore + LIFF)",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
