@@ -107,7 +107,7 @@ router.post('/', async (req, res) => {
         });
       }
       if (ev.type === 'follow') {
-        await line.reply(ev.replyToken, [text(`สวัสดี${user.displayName ? ' คุณ' + user.displayName : ''} 👋\nยินดีต้อนรับสู่ระบบบัญชีโรงงาน\n\n${HELP}${liffUrl() ? `\n\n📱 เปิดแอป: ${liffUrl()}` : ''}`, QUICK)]);
+        await line.reply(ev.replyToken, [text(`สวัสดี${user.displayName ? ' คุณ' + user.displayName : ''} 👋\nยินดีต้อนรับสู่ระบบบัญชีพิกกี้เลี้ยงหมู\n\n${HELP}${liffUrl() ? `\n\n📱 เปิดแอป: ${liffUrl()}` : ''}`, QUICK)]);
       } else if (ev.type === 'message' && ev.message.type === 'text') {
         if (user.active === false) { await line.reply(ev.replyToken, [text('บัญชีนี้ถูกระงับการใช้งาน')]); continue; }
         let msgs;

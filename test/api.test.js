@@ -85,9 +85,9 @@ test('หลังบ้าน', async () => {
   assert.equal((await call('/api/summary')).status, 403);
   await call('/admin/api/users/U1', { user: null, headers: h, method: 'PATCH', body: { active: true } });
   assert.equal((await call('/api/summary')).data.totalBalance, 126000);
-  const st = await call('/admin/api/settings', { user: null, headers: h, method: 'PUT', body: { shopName: 'โรงงานทดสอบ', categories: { expense: ['เช่า', 'อื่นๆ'] } } });
+  const st = await call('/admin/api/settings', { user: null, headers: h, method: 'PUT', body: { shopName: 'ฟาร์มทดสอบ', categories: { expense: ['เช่า', 'อื่นๆ'] } } });
   assert.deepEqual(st.data.categories.expense, ['เช่า', 'อื่นๆ']);
-  assert.equal((await call('/api/config', { user: null })).data.shopName, 'โรงงานทดสอบ');
+  assert.equal((await call('/api/config', { user: null })).data.shopName, 'ฟาร์มทดสอบ');
   const csv = await fetch(base + '/admin/api/export.csv', { headers: h });
   assert.match(await csv.text(), /วันที่/);
 });

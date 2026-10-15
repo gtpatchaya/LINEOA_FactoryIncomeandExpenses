@@ -1,4 +1,4 @@
-# ระบบบันทึกรายรับ-รายจ่ายโรงงาน ผ่าน LINE OA
+# พิกกี้เลี้ยงหมู — ระบบบันทึกรายรับ-รายจ่ายผ่าน LINE OA
 
 Express.js + Firestore + LINE LIFF (มีหลังบ้านสำหรับตั้งค่า)
 
@@ -38,7 +38,7 @@ docker compose up --build
 - ใช้ Firestore emulator ใน container (ไม่ต้องมีบัญชี Firebase) และเปิด `DEV_AUTH` เพื่อทดสอบโดยไม่ต้อง login LINE
 - ข้อมูลในเครื่องจะหายเมื่อ `docker compose down` (emulator เก็บในหน่วยความจำ)
 - อยากต่อ LINE จริง: ใส่ค่า `LIFF_ID` / `LINE_*` ใน `.env` แล้วเปิด tunnel (เช่น ngrok) ชี้มาที่พอร์ต 3000 และตั้ง `DEV_AUTH=false`
-- รันเฉพาะแอปบน production: `docker build -t factory-ledger . && docker run --env-file .env -p 3000:3000 factory-ledger`
+- รันเฉพาะแอปบน production: `docker build -t piggy-ledger . && docker run --env-file .env -p 3000:3000 factory-ledger`
 
 ### ค่าที่ต้องเติมใน `.env`
 - `LIFF_ID`, `LINE_LOGIN_CHANNEL_ID` — LINE Login channel (LIFF Endpoint URL = `https://<โดเมน>/liff/`, scope: `openid profile`)

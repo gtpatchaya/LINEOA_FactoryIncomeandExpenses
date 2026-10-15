@@ -1,7 +1,7 @@
 {
   "name": "lineoa-factory-income-expenses",
   "version": "1.0.0",
-  "description": "ระบบบันทึกรายรับรายจ่ายโรงงานผ่าน LINE OA (Express + Firestore + LIFF)",
+  "description": "ระบบบันทึกรายรับรายจ่ายพิกกี้เลี้ยงหมูผ่าน LINE OA (Express + Firestore + LIFF)",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
