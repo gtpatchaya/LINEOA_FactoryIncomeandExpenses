@@ -19,12 +19,12 @@ const call = async (path, { user = 'U1', method = 'GET', body, headers = {} } = 
 
 test('บันทึกรายรับ/รายจ่าย + สรุป + คงเหลือ + ยกเลิก + แยกผู้ใช้', async () => {
   assert.equal((await call('/api/summary', { user: null })).status, 401);
-  const e = await call('/api/transactions', { method: 'POST', body: { type: 'expense', amount: '48,000', category: 'วัตถุดิบ' } });
+  const e = await call('/api/transactions', { method: 'POST', body: { type: 'expense', amount: '48,000', category: 'อาหารหมู' } });
   assert.equal(e.status, 201);
-  const i = await call('/api/transactions', { method: 'POST', body: { type: 'income', amount: 125000, category: 'ขายสินค้า', note: 'ร้านสยาม' } });
-  const bad = await call('/api/transactions', { method: 'POST', body: { type: 'income', amount: 1, category: 'วัตถุดิบ' } });
+  const i = await call('/api/transactions', { method: 'POST', body: { type: 'income', amount: 125000, category: 'ขายหมูขุน', note: 'เขียงหมูสยาม' } });
+  const bad = await call('/api/transactions', { method: 'POST', body: { type: 'income', amount: 1, category: 'อาหารหมู' } });
   assert.equal(bad.status, 400);
-  assert.equal((await call('/api/transactions', { method: 'POST', body: { type: 'expense', amount: -5, category: 'วัตถุดิบ' } })).status, 400);
+  assert.equal((await call('/api/transactions', { method: 'POST', body: { type: 'expense', amount: -5, category: 'อาหารหมู' } })).status, 400);
 
   let s = (await call('/api/summary')).data;
   assert.equal(s.income, 125000); assert.equal(s.expense, 48000); assert.equal(s.balance, 77000);
@@ -63,8 +63,8 @@ test('webhook คำสั่งข้อความ', async () => {
   })(global.fetch);
   require('../src/config').channelAccessToken = 'tok';
   const say = async (t) => { sent.length = 0; await post([{ type: 'message', replyToken: 'r', source: { userId: 'U9' }, message: { type: 'text', text: t } }]); await new Promise((r) => setTimeout(r, 80)); return sent[0]?.messages[0].text; };
-  assert.match(await say('รับ 5000 ขายสินค้า ร้านสยาม'), /บันทึกรายรับ/);
-  assert.match(await say('จ่าย 300 วัตถุดิบ เม็ดพลาสติก'), /−฿300 · วัตถุดิบ/);
+  assert.match(await say('รับ 5000 ขายหมูขุน เขียงหมูสยาม'), /บันทึกรายรับ/);
+  assert.match(await say('จ่าย 300 อาหารหมู รำละเอียด'), /−฿300 · อาหารหมู/);
   assert.match(await say('-120 ค่าอะไรก็ไม่รู้'), /อื่นๆ/);
   assert.match(await say('ยอด'), /฿4,580/);
   assert.match(await say('สรุป'), /รายจ่าย ฿420/);

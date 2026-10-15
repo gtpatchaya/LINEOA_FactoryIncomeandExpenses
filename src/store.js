@@ -32,7 +32,7 @@ function firestoreStore() {
   const admin = require('firebase-admin');
   const opts = {};
   // Firestore emulator (docker compose) ไม่ต้องใช้ credential
-  if (process.env.FIRESTORE_EMULATOR_HOST) opts.projectId = config.firebaseProjectId || 'demo-factory';
+  if (process.env.FIRESTORE_EMULATOR_HOST) opts.projectId = config.firebaseProjectId || 'demo-piggy';
   else if (config.serviceAccountJson) opts.credential = admin.credential.cert(JSON.parse(config.serviceAccountJson));
   else opts.credential = admin.credential.applicationDefault();
   if (config.firebaseProjectId && !opts.projectId) opts.projectId = config.firebaseProjectId;

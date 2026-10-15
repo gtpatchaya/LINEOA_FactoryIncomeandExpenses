@@ -10,7 +10,7 @@ services:
     environment:
       PORT: 3000
       STORE: firestore
-      FIREBASE_PROJECT_ID: demo-factory
+      FIREBASE_PROJECT_ID: demo-piggy
       FIRESTORE_EMULATOR_HOST: firestore:8080
       DEV_AUTH: "${DEV_AUTH:-true}"
       ADMIN_USERNAME: "${ADMIN_USERNAME:-admin}"
@@ -30,6 +30,6 @@ services:
   firestore:
     image: google/cloud-sdk:emulators
     command: >
-      sh -c "gcloud emulators firestore start --host-port=0.0.0.0:8080 --project=demo-factory"
+      sh -c "gcloud emulators firestore start --host-port=0.0.0.0:8080 --project=demo-piggy"
     ports:
       - "8080:8080"
