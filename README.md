@@ -26,6 +26,16 @@ npm start
 npm test
 ```
 
+### รันในเครื่องด้วย Docker
+```bash
+docker compose up --build
+```
+- แอป: http://localhost:3000/liff/ · หลังบ้าน: http://localhost:3000/admin/ (ค่าเริ่มต้น `admin` / `admin1234`)
+- ใช้ Firestore emulator ใน container (ไม่ต้องมีบัญชี Firebase) และเปิด `DEV_AUTH` เพื่อทดสอบโดยไม่ต้อง login LINE
+- ข้อมูลในเครื่องจะหายเมื่อ `docker compose down` (emulator เก็บในหน่วยความจำ)
+- อยากต่อ LINE จริง: ใส่ค่า `LIFF_ID` / `LINE_*` ใน `.env` แล้วเปิด tunnel (เช่น ngrok) ชี้มาที่พอร์ต 3000 และตั้ง `DEV_AUTH=false`
+- รันเฉพาะแอปบน production: `docker build -t factory-ledger . && docker run --env-file .env -p 3000:3000 factory-ledger`
+
 ### ค่าที่ต้องเติมใน `.env`
 - `LIFF_ID`, `LINE_LOGIN_CHANNEL_ID` — LINE Login channel (LIFF Endpoint URL = `https://<โดเมน>/liff/`, scope: `openid profile`)
 - `LINE_CHANNEL_SECRET`, `LINE_CHANNEL_ACCESS_TOKEN` — Messaging API (Webhook URL = `https://<โดเมน>/webhook`)
