@@ -53,4 +53,4 @@ code{background:var(--track);padding:2px 6px;border-radius:6px;font-size:13px;ov
 .row2{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap}.row2>*{flex:1;min-width:160px}
 
 /* ซ่อนป้ายโฆษณาของ Netlify */
-#nl-badge,#nl-card,.nl-badge{display:none!important}
+iframe[class^='nl-'],iframe[id^='nl-'],[class^='nl-badge'],[id^='nl-badge']{display:none!important}
