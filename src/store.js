@@ -34,7 +34,13 @@ function firestoreStore() {
   // Firestore emulator (docker compose) ไม่ต้องใช้ credential
   if (process.env.FIRESTORE_EMULATOR_HOST) opts.projectId = config.firebaseProjectId || 'demo-piggy';
   else if (config.serviceAccountJson) opts.credential = admin.credential.cert(JSON.parse(config.serviceAccountJson));
-  else opts.credential = admin.credential.applicationDefault();
+  else if (process.env.FIREBASE_CLIENT_EMAIL && process.env.FIREBASE_PRIVATE_KEY) {
+    opts.credential = admin.credential.cert({
+      projectId: config.firebaseProjectId,
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+      privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+    });
+  } else opts.credential = admin.credential.applicationDefault();
   if (config.firebaseProjectId && !opts.projectId) opts.projectId = config.firebaseProjectId;
   admin.initializeApp(opts);
   const db = admin.firestore();
@@ -58,6 +64,11 @@ function firestoreStore() {
     async txByUser(uid) { return docs(await db.collection('transactions').where('userId', '==', uid).get()); },
     async txByMonth(ym) { return docs(await db.collection('transactions').where('ym', '==', ym).get()); },
   };
+}
+
+// บน serverless (Netlify) memory store ใช้ไม่ได้ เพราะข้อมูลหายทุกครั้งที่ function เริ่มใหม่
+if (process.env.NETLIFY && config.store !== 'firestore' && !config.devAuth) {
+  throw new Error('บน Netlify ต้องตั้ง STORE=firestore (memory store ใช้ไม่ได้)');
 }
 
 module.exports = config.store === 'firestore' ? firestoreStore() : memoryStore();

@@ -40,6 +40,17 @@ docker compose up --build
 - อยากต่อ LINE จริง: ใส่ค่า `LIFF_ID` / `LINE_*` ใน `.env` แล้วเปิด tunnel (เช่น ngrok) ชี้มาที่พอร์ต 3000 และตั้ง `DEV_AUTH=false`
 - รันเฉพาะแอปบน production: `docker build -t piggy-ledger . && docker run --env-file .env -p 3000:3000 factory-ledger`
 
+### Deploy บน Netlify
+หน้าเว็บ (`public/`) เป็นไฟล์สแตติก ส่วน API ทั้งหมด (`/api`, `/admin/api`, `/webhook`) รันเป็น Netlify Function ตัวเดียว (`netlify/functions/api.js`) ตามที่ตั้งใน `netlify.toml`
+1. Netlify → Add new site → Import from GitHub → เลือก branch `main` (build command เว้นว่างได้, publish = `public` ตั้งไว้แล้ว)
+2. Site settings → Environment variables ใส่ค่าเหมือน `.env` — **ต้อง `STORE=firestore`** (memory ใช้บน serverless ไม่ได้) และ **`DEV_AUTH=false`**
+3. ตั้ง `PUBLIC_BASE_URL=https://<ชื่อ>.netlify.app` แล้วนำ `https://<ชื่อ>.netlify.app/webhook` ไปใส่ที่ LINE Messaging API และ `https://<ชื่อ>.netlify.app/liff/` เป็น LIFF Endpoint URL
+4. เช็ค `https://<ชื่อ>.netlify.app/healthz` ต้องได้ `{"ok":true,"store":"firestore"}`
+
+หมายเหตุ: Netlify จำกัดขนาด environment variables รวมกันประมาณ 4KB ถ้า `FIREBASE_SERVICE_ACCOUNT_JSON` ทำให้เกิน ให้ใช้ `FIREBASE_PROJECT_ID` + `FIREBASE_CLIENT_EMAIL` + `FIREBASE_PRIVATE_KEY` (ใส่ `\n` แทนขึ้นบรรทัดได้) แทน
+
+ลองในเครื่อง: `npx netlify-cli dev`
+
 ### ค่าที่ต้องเติมใน `.env`
 - `LIFF_ID`, `LINE_LOGIN_CHANNEL_ID` — LINE Login channel (LIFF Endpoint URL = `https://<โดเมน>/liff/`, scope: `openid profile`)
 - `LINE_CHANNEL_SECRET`, `LINE_CHANNEL_ACCESS_TOKEN` — Messaging API (Webhook URL = `https://<โดเมน>/webhook`)
