@@ -116,3 +116,19 @@ label.f{display:block;font-weight:700;font-size:16px;margin:16px 0 8px}
 .toast{position:fixed;left:16px;right:16px;bottom:calc(96px + env(safe-area-inset-bottom));max-width:448px;margin:0 auto;background:#1F2933;color:#fff;border-radius:18px;padding:14px 18px;z-index:30;display:flex;justify-content:space-between;align-items:center;gap:12px}
 .toast button{color:#FFD7BF;font-weight:700;text-decoration:underline}
 .err{background:var(--orange-soft);color:var(--orange);border-radius:16px;padding:14px 16px;margin:12px 0;font-weight:600}
+
+/* หน้าโหลด (splash) */
+.intro{position:fixed;inset:0;z-index:100;background:#0E5C63;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;transition:opacity .45s ease,visibility .45s}
+.intro.hide{opacity:0;visibility:hidden;pointer-events:none}
+.intro-logo{width:200px;height:200px;animation:bob 1.4s ease-in-out infinite;filter:drop-shadow(0 10px 18px rgba(0,0,0,.25))}
+.intro-name{font-size:30px;font-weight:700;margin-top:10px}
+.intro-sub{font-size:15px;opacity:.8}
+.intro-dots{display:flex;gap:8px;margin-top:22px}
+.intro-dots i{width:9px;height:9px;border-radius:50%;background:#fff;opacity:.35;animation:dot 1.2s infinite}
+.intro-dots i:nth-child(2){animation-delay:.2s}.intro-dots i:nth-child(3){animation-delay:.4s}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-14px) rotate(2deg)}}
+@keyframes dot{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.15)}}
+@media (prefers-reduced-motion:reduce){.intro-logo,.intro-dots i{animation:none}.intro{transition:none}}
+
+/* ซ่อนป้ายโฆษณาของ Netlify */
+#nl-badge,#nl-card,.nl-badge{display:none!important}

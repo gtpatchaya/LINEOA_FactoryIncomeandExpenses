@@ -51,3 +51,6 @@ td.r,th.r{text-align:right}
 .ok-dot{color:var(--teal)}.no-dot{color:var(--orange)}
 code{background:var(--track);padding:2px 6px;border-radius:6px;font-size:13px;overflow-wrap:anywhere}
 .row2{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap}.row2>*{flex:1;min-width:160px}
+
+/* ซ่อนป้ายโฆษณาของ Netlify */
+#nl-badge,#nl-card,.nl-badge{display:none!important}
