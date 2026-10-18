@@ -1,0 +1,35 @@
+# รันในเครื่อง:  docker compose up --build
+# แอป      → http://localhost:3000/liff/   (โหมดทดสอบ DEV_AUTH ไม่ต้อง login LINE)
+# หลังบ้าน → http://localhost:3000/admin/  (ค่าเริ่มต้น admin / admin1234)
+# ค่าใน .env (ถ้ามี) จะถูกอ่านอัตโนมัติ และ override ค่าด้านล่างได้
+services:
+  app:
+    build: .
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      PORT: 3000
+      STORE: firestore
+      FIREBASE_PROJECT_ID: demo-piggy
+      FIRESTORE_EMULATOR_HOST: firestore:8080
+      DEV_AUTH: "${DEV_AUTH:-true}"
+      ADMIN_USERNAME: "${ADMIN_USERNAME:-admin}"
+      ADMIN_PASSWORD: "${ADMIN_PASSWORD:-admin1234}"
+      SESSION_SECRET: "${SESSION_SECRET:-local-dev-secret}"
+      PUBLIC_BASE_URL: "${PUBLIC_BASE_URL:-http://localhost:3000}"
+      LIFF_ID: "${LIFF_ID:-}"
+      LINE_LOGIN_CHANNEL_ID: "${LINE_LOGIN_CHANNEL_ID:-}"
+      LINE_CHANNEL_SECRET: "${LINE_CHANNEL_SECRET:-}"
+      LINE_CHANNEL_ACCESS_TOKEN: "${LINE_CHANNEL_ACCESS_TOKEN:-}"
+    depends_on:
+      firestore:
+        condition: service_started
+    restart: unless-stopped
+
+  # Firestore emulator — ข้อมูลอยู่ในหน่วยความจำของ emulator
+  firestore:
+    image: google/cloud-sdk:emulators
+    command: >
+      sh -c "gcloud emulators firestore start --host-port=0.0.0.0:8080 --project=demo-piggy"
+    ports:
+      - "8080:8080"
