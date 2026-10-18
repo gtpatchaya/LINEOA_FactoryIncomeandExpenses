@@ -131,4 +131,4 @@ label.f{display:block;font-weight:700;font-size:16px;margin:16px 0 8px}
 @media (prefers-reduced-motion:reduce){.intro-logo,.intro-dots i{animation:none}.intro{transition:none}}
 
 /* ซ่อนป้ายโฆษณาของ Netlify */
-#nl-badge,#nl-card,.nl-badge{display:none!important}
+iframe[class^='nl-'],iframe[id^='nl-'],[class^='nl-badge'],[id^='nl-badge']{display:none!important}
