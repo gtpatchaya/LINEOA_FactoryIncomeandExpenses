@@ -261,6 +261,13 @@ view.addEventListener('click', (e) => {
 });
 
 /* ---------- boot ---------- */
+const introStart = Date.now();
+// แสดงโลโก้อย่างน้อย 0.9 วินาที แล้วค่อยเฟดออกหลังโหลดข้อมูลหน้าแรกเสร็จ
+function hideIntro() {
+  const el = $('#intro'); if (!el) return;
+  setTimeout(() => { el.classList.add('hide'); setTimeout(() => el.remove(), 600); }, Math.max(0, 900 - (Date.now() - introStart)));
+}
+
 (async function boot() {
   try {
     S.cfg = await (await fetch('/api/config')).json();
@@ -274,11 +281,13 @@ view.addEventListener('click', (e) => {
       localStorage.setItem('devUser', S.devUser);
     } else {
       view.innerHTML = '<div class="err">ยังไม่ได้ตั้งค่า LIFF_ID ที่เซิร์ฟเวอร์</div>';
+      hideIntro();
       return;
     }
     const q = new URLSearchParams(location.search);
     const t = q.get('tab'); const ty = q.get('type');
     if (ty === 'income' || ty === 'expense') S.form.type = ty;
     await go(['home', 'history', 'add', 'summary'].includes(t) ? t : 'home');
-  } catch (e) { fail(e); }
+    hideIntro();
+  } catch (e) { fail(e); hideIntro(); }
 })();

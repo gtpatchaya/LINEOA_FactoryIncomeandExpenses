@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="พิกกี้เลี้ยงหมู">
+  
+  <g transform="translate(256 262) scale(1) translate(-256 -262)">
+  <!-- ขา -->
+  <rect x="158" y="372" width="48" height="64" rx="22" fill="#F59AAF"/>
+  <rect x="306" y="372" width="48" height="64" rx="22" fill="#F59AAF"/>
+  <!-- หู -->
+  <ellipse cx="172" cy="204" rx="32" ry="42" transform="rotate(-28 172 204)" fill="#F48AA0"/>
+  <ellipse cx="340" cy="204" rx="32" ry="42" transform="rotate(28 340 204)" fill="#F48AA0"/>
+  <ellipse cx="174" cy="208" rx="16" ry="24" transform="rotate(-28 174 208)" fill="#F9B4C3"/>
+  <ellipse cx="338" cy="208" rx="16" ry="24" transform="rotate(28 338 208)" fill="#F9B4C3"/>
+  <!-- ตัว -->
+  <ellipse cx="256" cy="298" rx="156" ry="120" fill="#F9B4C3"/>
+  <path d="M138 268 C150 226 190 204 232 200" stroke="#fff" stroke-opacity=".55" stroke-width="12" stroke-linecap="round" fill="none"/>
+  <!-- ช่องหยอดเหรียญ -->
+  <rect x="212" y="184" width="88" height="14" rx="7" fill="#C85A74"/>
+  <!-- เหรียญ -->
+  <g>
+    <circle cx="256" cy="116" r="54" fill="#F6C445" stroke="#E0A526" stroke-width="8"/>
+    <circle cx="256" cy="116" r="38" fill="none" stroke="#E0A526" stroke-width="4" stroke-opacity=".6"/>
+    <g stroke="#B9801A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <path d="M241 92 V140 M241 92 H258 Q272 92 272 105 Q272 117 258 117 H241 M241 117 H262 Q277 117 277 129 Q277 140 262 140 H241"/>
+      <path d="M251 83 V92 M251 140 V149 M263 83 V92 M263 140 V149" stroke-width="6"/>
+    </g>
+  </g>
+  <!-- แก้ม -->
+  <ellipse cx="166" cy="322" rx="20" ry="12" fill="#F2728F" fill-opacity=".55"/>
+  <ellipse cx="346" cy="322" rx="20" ry="12" fill="#F2728F" fill-opacity=".55"/>
+  <!-- ตา -->
+  <circle cx="204" cy="284" r="15" fill="#2B2330"/><circle cx="308" cy="284" r="15" fill="#2B2330"/>
+  <circle cx="209" cy="278" r="5" fill="#fff"/><circle cx="313" cy="278" r="5" fill="#fff"/>
+  <!-- จมูก -->
+  <ellipse cx="256" cy="326" rx="54" ry="38" fill="#F48AA0"/>
+  <ellipse cx="238" cy="324" rx="7" ry="11" fill="#C85A74"/><ellipse cx="274" cy="324" rx="7" ry="11" fill="#C85A74"/>
+  <!-- ยิ้ม -->
+  <path d="M236 372 Q256 388 276 372" stroke="#C85A74" stroke-width="7" stroke-linecap="round" fill="none"/>
+</g>
+</svg>
