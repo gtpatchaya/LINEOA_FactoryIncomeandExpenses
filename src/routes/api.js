@@ -3,6 +3,9 @@ const config = require('../config');
 const { requireUser } = require('../auth');
 const { getSettings } = require('../services/settings');
 const tx = require('../services/transactions');
+const budget = require('../services/budget');
+const { stats } = require('../services/stats');
+const line = require('../line');
 const { monthTH, isMonth } = require('../util');
 
 const router = express.Router();
@@ -43,9 +46,27 @@ router.get('/transactions/recent', wrap(async (req, res) => {
   res.json((await tx.recent(req.user.id, 4)).map(publicTx));
 }));
 
-// 1,2) บันทึกรายรับ/รายจ่าย
+// 1,2) บันทึกรายรับ/รายจ่าย (คืน alerts ถ้าข้ามเกณฑ์งบ และส่งแจ้งเตือนเข้า LINE ด้วย)
 router.post('/transactions', wrap(async (req, res) => {
-  res.status(201).json(publicTx(await tx.addTransaction(req.user.id, req.body || {})));
+  const created = await tx.addTransaction(req.user.id, req.body || {});
+  const alerts = created.type === 'expense' ? await budget.checkAlerts(req.user.id, created.ym) : [];
+  if (alerts.length) await line.push(req.user.id, alerts.map((a) => ({ type: 'text', text: a.text }))).catch((e) => console.error('[push]', e));
+  res.status(201).json({ ...publicTx(created), alerts });
+}));
+
+// กราฟเปรียบเทียบ: period = day | month | year
+router.get('/stats', wrap(async (req, res) => {
+  res.json(await stats(req.user.id, req.query.period || 'month', req.query.anchor));
+}));
+
+// งบประมาณ
+router.get('/budget', wrap(async (req, res) => {
+  const [b, s] = await Promise.all([budget.getBudget(req.user.id), getSettings()]);
+  res.json({ ...b, expenseCategories: s.categories.expense });
+}));
+router.put('/budget', wrap(async (req, res) => {
+  const s = await getSettings();
+  res.json(await budget.setBudget(req.user.id, req.body || {}, s.categories.expense));
 }));
 
 // 7) ยกเลิกรายการ

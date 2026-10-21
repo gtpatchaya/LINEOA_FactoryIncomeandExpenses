@@ -23,7 +23,12 @@ const pub = path.join(__dirname, '..', 'public');
 app.use('/liff', express.static(path.join(pub, 'liff')));
 app.use('/admin', express.static(path.join(pub, 'admin')));
 app.get('/', (_req, res) => res.redirect('/liff/'));
-app.get('/healthz', (_req, res) => res.json({ ok: true, store: store.kind }));
+app.get('/healthz', async (req, res, next) => {
+  try {
+    if (req.query.deep) await store.getSettings(); // แตะ Firestore เพื่ออุ่นการเชื่อมต่อ (ใช้กับ keepwarm)
+    res.json({ ok: true, store: store.kind });
+  } catch (e) { next(e); }
+});
 
 app.use((err, _req, res, _next) => {
   if (!err.status) console.error(err);

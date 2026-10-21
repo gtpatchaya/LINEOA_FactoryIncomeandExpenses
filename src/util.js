@@ -24,4 +24,4 @@ const thDateShort = (d) => {
 };
 const baht = (n) => '฿' + Number(n).toLocaleString('en-US', { maximumFractionDigits: 2 });
 
-module.exports = { todayTH, monthTH, isDate, isMonth, newId, round2, thMonthLabel, thDateShort, baht, THAI_MONTHS };
+module.exports = { todayTH, monthTH, isDate, isMonth, newId, round2, thMonthLabel, thDateShort, baht, THAI_MONTHS, THAI_MONTHS_SHORT };
