@@ -18,10 +18,20 @@ async function reply(replyToken, messages) {
   if (!res.ok) console.error('[LINE] reply failed', res.status, await res.text());
 }
 
+async function push(userId, messages) {
+  if (!config.channelAccessToken) return;
+  const res = await fetch('https://api.line.me/v2/bot/message/push', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${config.channelAccessToken}` },
+    body: JSON.stringify({ to: userId, messages: messages.slice(0, 5) }),
+  });
+  if (!res.ok) console.error('[LINE] push failed', res.status, await res.text());
+}
+
 async function getProfile(userId) {
   if (!config.channelAccessToken) return null;
   const res = await fetch(`https://api.line.me/v2/bot/profile/${userId}`, { headers: { Authorization: `Bearer ${config.channelAccessToken}` } });
   return res.ok ? res.json() : null;
 }
 
-module.exports = { verifySignature, reply, getProfile };
+module.exports = { verifySignature, reply, push, getProfile };

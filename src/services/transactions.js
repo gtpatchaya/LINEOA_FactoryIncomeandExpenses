@@ -1,6 +1,8 @@
 const store = require('../store');
 const { getSettings } = require('./settings');
 const { todayTH, isDate, isMonth, round2 } = require('../util');
+const { summarize } = require('./summary');
+const { status: budgetStatus } = require('./budget-status');
 
 const httpError = (status, message) => Object.assign(new Error(message), { status });
 
@@ -47,32 +49,13 @@ async function listMonth(userId, ym, { includeCancelled = false } = {}) {
   return sortTx(includeCancelled ? list : list.filter((t) => t.status === 'active'));
 }
 
-/* รวมยอดจากรายการ (ไม่นับรายการที่ยกเลิก) */
-function summarize(list) {
-  const active = list.filter((t) => t.status === 'active');
-  const sums = { income: 0, expense: 0 };
-  const cats = { income: {}, expense: {} };
-  for (const t of active) {
-    sums[t.type] += t.amount;
-    cats[t.type][t.category] = (cats[t.type][t.category] || 0) + t.amount;
-  }
-  const breakdown = (type) => Object.entries(cats[type])
-    .map(([category, amount]) => ({ category, amount: round2(amount), percent: sums[type] ? Math.round((amount / sums[type]) * 100) : 0 }))
-    .sort((a, b) => b.amount - a.amount);
-  return {
-    income: round2(sums.income), expense: round2(sums.expense),
-    balance: round2(sums.income - sums.expense), count: active.length,
-    byCategory: { income: breakdown('income'), expense: breakdown('expense') },
-  };
-}
-
 /* 4 + 5 + 6) สรุปรายเดือน + ยอดคงเหลือ (เดือนนี้ และสะสมทั้งหมด) */
 async function monthSummary(userId, ym) {
   const [list, all, user] = await Promise.all([store.txByUserMonth(userId, ym), store.txByUser(userId), store.getUser(userId)]);
   const month = summarize(list);
   const total = summarize(all);
   const opening = Number(user?.openingBalance) || 0;
-  return { month: ym, ...month, totalBalance: round2(opening + total.balance), openingBalance: opening };
+  return { month: ym, ...month, totalBalance: round2(opening + total.balance), openingBalance: opening, budget: budgetStatus(user, month, ym) };
 }
 
 async function recent(userId, limit = 5) {

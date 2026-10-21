@@ -12,6 +12,7 @@ erDiagram
         string nickname "ตั้งจากหลังบ้าน"
         boolean active "false = ระงับ"
         number openingBalance "ยอดยกมา"
+        map budget "งบ: monthly, categories[{category,amount}], alerts"
         string createdAt "ISO"
     }
     TRANSACTIONS {

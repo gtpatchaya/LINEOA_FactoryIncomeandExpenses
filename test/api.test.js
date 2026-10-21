@@ -62,16 +62,17 @@ test('webhook คำสั่งข้อความ', async () => {
     return orig(url, opts);
   })(global.fetch);
   require('../src/config').channelAccessToken = 'tok';
-  const say = async (t) => { sent.length = 0; await post([{ type: 'message', replyToken: 'r', source: { userId: 'U9' }, message: { type: 'text', text: t } }]); await new Promise((r) => setTimeout(r, 80)); return sent[0]?.messages[0].text; };
-  assert.match(await say('รับ 5000 เงินเดือน บริษัท'), /บันทึกรายรับ/);
-  assert.match(await say('จ่าย 300 อาหาร ข้าวมันไก่'), /−฿300 · อาหาร/);
+  // รวมข้อความทุกอันที่บอทตอบ (text หรือ altText ของ flex)
+  const say = async (t) => { sent.length = 0; await post([{ type: 'message', replyToken: 'r', source: { userId: 'U9' }, message: { type: 'text', text: t } }]); return (sent[0]?.messages || []).map((m) => m.text || m.altText).join(' | '); };
+  assert.match(await say('รับ 5000 เงินเดือน บริษัท'), /รายรับ ฿5,000 · เงินเดือน/);
+  assert.match(await say('จ่าย 300 อาหาร ข้าวมันไก่'), /รายจ่าย ฿300 · อาหาร/);
   assert.match(await say('-120 ค่าอะไรก็ไม่รู้'), /อื่นๆ/);
-  assert.match(await say('ยอด'), /฿4,580/);
+  assert.match(await say('ยอด'), /เงินคงเหลือ ฿4,580/);
   assert.match(await say('สรุป'), /รายจ่าย ฿420/);
   assert.match(await say('ประวัติ'), /รายการล่าสุด/);
   assert.match(await say('ยกเลิก'), /ยกเลิกรายการแล้ว/);
-  assert.match(await say('ยอด'), /฿4,700/);
-  assert.match(await say('สวัสดี'), /วิธีใช้งาน/);
+  assert.match(await say('ยอด'), /เงินคงเหลือ ฿4,700/);
+  assert.match(await say('สวัสดี'), /พิมพ์จดได้เลย/);
 });
 
 test('หลังบ้าน', async () => {
